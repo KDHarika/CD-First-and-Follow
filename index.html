@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!doctype html>
 <html lang="en">
 <head>
@@ -45,5 +46,615 @@
   </main>
   <div id="errorToast" class="error-toast" role="alert" hidden></div>
   <script src="script.js"></script>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIRST &amp; FOLLOW Set Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F6F4EF;
+    --panel: #FFFFFF;
+    --ink: #1C201D;
+    --ink-soft: #565F58;
+    --line: #DCD8CC;
+    --accent: #2E6F5E;
+    --accent-soft: #E4EFEA;
+    --amber: #B9762E;
+    --amber-soft: #F4E9DA;
+    --error: #A6402F;
+    --error-soft: #F6E4E0;
+    --mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+    --display: 'Space Grotesk', system-ui, sans-serif;
+    .complexity-panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.complexity-panel h2 {
+  font-size: 1.05rem;
+  margin: 0 0 1rem;
+  font-weight: 600;
+}
+
+.complexity-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.complexity-item {
+  background: var(--accent-soft);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.complexity-item span {
+  display: block;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  margin-bottom: 0.4rem;
+}
+
+.complexity-item strong {
+  font-family: var(--mono);
+  color: var(--accent);
+  font-size: 1.1rem;
+}
+
+.complexity-note {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 640px) {
+  .complexity-grid {
+    grid-template-columns: 1fr;
+  }
+}
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #14181A;
+      --panel: #1B2023;
+      --ink: #E9E7E0;
+      --ink-soft: #9BA39C;
+      --line: #313834;
+      --accent: #56B79A;
+      --accent-soft: #1E2E29;
+      --amber: #D9955B;
+      --amber-soft: #2E271C;
+      --error: #E08A78;
+      --error-soft: #33221E;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #14181A;
+    --panel: #1B2023;
+    --ink: #E9E7E0;
+    --ink-soft: #9BA39C;
+    --line: #313834;
+    --accent: #56B79A;
+    --accent-soft: #1E2E29;
+    --amber: #D9955B;
+    --amber-soft: #2E271C;
+    --error: #E08A78;
+    --error-soft: #33221E;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--display);
+    padding: 2.5rem 1.25rem 4rem;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; }
+
+  header { margin-bottom: 2rem; }
+  header .kicker {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+    margin: 0 0 0.6rem;
+  }
+  h1 {
+    font-size: clamp(1.7rem, 4vw, 2.35rem);
+    margin: 0 0 0.5rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  header p {
+    color: var(--ink-soft);
+    max-width: 60ch;
+    margin: 0;
+    font-size: 0.98rem;
+  }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  label.field-label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.6rem;
+  }
+  label.field-label b { color: var(--ink); font-weight: 600; }
+
+  textarea {
+    width: 100%;
+    min-height: 148px;
+    background: var(--bg);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 0.9rem 1rem;
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    resize: vertical;
+    line-height: 1.65;
+  }
+  textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  .rules-hint {
+    margin-top: 0.7rem;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.1rem;
+  }
+  .rules-hint code {
+    font-family: var(--mono);
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+  }
+
+  .actions {
+    display: flex;
+    gap: 0.7rem;
+    margin-top: 1.1rem;
+    flex-wrap: wrap;
+  }
+  button {
+    font-family: var(--display);
+    font-size: 0.92rem;
+    font-weight: 600;
+    padding: 0.65rem 1.3rem;
+    border-radius: 7px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform 0.08s ease, background 0.15s ease;
+  }
+  button:active { transform: translateY(1px); }
+  .btn-primary { background: var(--accent); color: #F6F4EF; }
+  .btn-primary:hover { background: color-mix(in srgb, var(--accent) 88%, black); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink-soft);
+    border-color: var(--line);
+  }
+  .btn-ghost:hover { color: var(--ink); border-color: var(--ink-soft); }
+
+  .error-box {
+    background: var(--error-soft);
+    color: var(--error);
+    border: 1px solid var(--error);
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    font-family: var(--mono);
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  @media (max-width: 640px) {
+    .results-grid { grid-template-columns: 1fr; }
+  }
+
+  .results-grid h2 {
+    font-size: 1.05rem;
+    margin: 0 0 0.9rem;
+    font-weight: 600;
+  }
+
+  table.set-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--mono);
+    font-size: 0.9rem;
+  }
+  table.set-table td {
+    padding: 0.55rem 0.5rem;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  table.set-table tr:last-child td { border-bottom: none; }
+  td.nt-cell {
+    font-weight: 600;
+    color: var(--accent);
+    white-space: nowrap;
+    width: 1%;
+    padding-right: 0.9rem;
+  }
+  .chip {
+    display: inline-block;
+    padding: 0.12rem 0.5rem;
+    margin: 0.12rem 0.28rem 0.12rem 0;
+    background: var(--accent-soft);
+    border-radius: 5px;
+    font-size: 0.86rem;
+  }
+  .chip.epsilon {
+    background: var(--amber-soft);
+    color: var(--amber);
+    font-weight: 600;
+  }
+  .chip.dollar {
+    background: var(--amber-soft);
+    color: var(--amber);
+    font-weight: 600;
+  }
+
+  .empty-note {
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+    font-style: italic;
+  }
+
+  footer {
+    margin-top: 2rem;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="kicker">grammar analysis</p>
+    <h1>FIRST &amp; FOLLOW Set Calculator</h1>
+    <p>Enter a context-free grammar below and compute FIRST and FOLLOW sets for every non-terminal. Handles multiple alternatives, epsilon productions, and nullable symbols correctly &mdash; including cases a naive one-lookahead implementation gets wrong.</p>
+  </header>
+
+  <div class="panel">
+    <label class="field-label" for="grammar-input">
+      <b>Grammar</b> &mdash; one non-terminal per line
+    </label>
+    <textarea id="grammar-input" spellcheck="false"></textarea>
+    <div class="rules-hint">
+      <span><code>A=bC|D</code> separates alternatives with <code>|</code></span>
+      <span><code>UPPERCASE</code> = non-terminal</span>
+      <span>anything else = terminal</span>
+      <span><code>#</code> = epsilon</span>
+      <span>first line's non-terminal = start symbol</span>
+    </div>
+    <div class="actions">
+      <button class="btn-primary" id="compute-btn">Compute sets</button>
+      <button class="btn-ghost" id="example-btn">Load example</button>
+      <button class="btn-ghost" id="clear-btn">Clear</button>
+    </div>
+  </div>
+
+  <div id="error-slot"></div>
+  <div id="results-slot"></div>
+
+  <footer>Terminals and non-terminals must be single characters, matching classic textbook grammar notation.</footer>
+</div>
+
+<script>
+const EXAMPLE = `E=TX
+X=+TX|#
+T=FY
+Y=*FY|#
+F=(E)|i`;
+
+const input = document.getElementById('grammar-input');
+const errorSlot = document.getElementById('error-slot');
+const resultsSlot = document.getElementById('results-slot');
+
+document.getElementById('example-btn').addEventListener('click', () => {
+  input.value = EXAMPLE;
+  compute();
+});
+document.getElementById('clear-btn').addEventListener('click', () => {
+  input.value = '';
+  errorSlot.innerHTML = '';
+  resultsSlot.innerHTML = '';
+});
+document.getElementById('compute-btn').addEventListener('click', compute);
+
+function isNonTerminalChar(ch) {
+  return ch >= 'A' && ch <= 'Z';
+}
+
+function parseGrammar(text) {
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+  if (lines.length === 0) throw new Error('Enter at least one production.');
+
+  const order = [];       // order of non-terminals as first defined (first = start symbol)
+  const rules = {};       // nt -> array of alternatives, each an array of symbols
+
+  for (const line of lines) {
+    const eq = line.indexOf('=');
+    if (eq === -1) throw new Error(`Missing "=" in line: "${line}"`);
+    const lhs = line.slice(0, eq).trim();
+    const rhsRaw = line.slice(eq + 1).trim();
+    if (lhs.length !== 1 || !isNonTerminalChar(lhs)) {
+      throw new Error(`Left-hand side must be a single uppercase letter: "${line}"`);
+    }
+    if (rhsRaw.length === 0) throw new Error(`Empty right-hand side in line: "${line}"`);
+
+    if (!rules[lhs]) { rules[lhs] = []; order.push(lhs); }
+
+    const alts = rhsRaw.split('|').map(a => a.trim());
+    for (const alt of alts) {
+      if (alt.length === 0) throw new Error(`Empty alternative in line: "${line}"`);
+      rules[lhs].push(alt.split(''));
+    }
+  }
+
+  return { order, rules };
+}
+
+function computeFirstFollow(order, rules) {
+  const nonTerminals = new Set(order);
+  const FIRST = {};
+  for (const nt of order) FIRST[nt] = new Set();
+
+  const firstOfTerminal = (t) => new Set([t]);
+
+  function firstOfSymbol(sym) {
+    if (nonTerminals.has(sym)) return FIRST[sym];
+    return firstOfTerminal(sym);
+  }
+
+  // FIRST of a sequence of symbols (used for FOLLOW's beta lookahead too)
+  function firstOfSequence(seq) {
+    const result = new Set();
+    let allNullable = true;
+    for (const sym of seq) {
+      if (sym === '#') { continue; } // shouldn't appear mid-sequence, but skip safely
+      const fs = firstOfSymbol(sym);
+      for (const s of fs) if (s !== '#') result.add(s);
+      if (!fs.has('#')) { allNullable = false; break; }
+    }
+    if (allNullable) result.add('#');
+    return result;
+  }
+
+  // Fixpoint iteration for FIRST
+  let changed = true;
+  let guard = 0;
+  while (changed && guard < 10000) {
+    changed = false;
+    guard++;
+    for (const nt of order) {
+      for (const alt of rules[nt]) {
+        if (alt.length === 1 && alt[0] === '#') {
+          if (!FIRST[nt].has('#')) { FIRST[nt].add('#'); changed = true; }
+          continue;
+        }
+        let allNullable = true;
+        for (const sym of alt) {
+          const fs = firstOfSymbol(sym);
+          for (const s of fs) {
+            if (s !== '#' && !FIRST[nt].has(s)) { FIRST[nt].add(s); changed = true; }
+          }
+          if (!fs.has('#')) { allNullable = false; break; }
+        }
+        if (allNullable && !FIRST[nt].has('#')) { FIRST[nt].add('#'); changed = true; }
+      }
+    }
+  }
+
+  // FOLLOW
+  const FOLLOW = {};
+  for (const nt of order) FOLLOW[nt] = new Set();
+  const startSymbol = order[0];
+  FOLLOW[startSymbol].add('$');
+
+  changed = true;
+  guard = 0;
+  while (changed && guard < 10000) {
+    changed = false;
+    guard++;
+    for (const lhs of order) {
+      for (const alt of rules[lhs]) {
+        if (alt.length === 1 && alt[0] === '#') continue;
+        for (let i = 0; i < alt.length; i++) {
+          const B = alt[i];
+          if (!nonTerminals.has(B)) continue;
+          const beta = alt.slice(i + 1);
+          const firstBeta = firstOfSequence(beta);
+          for (const s of firstBeta) {
+            if (s !== '#' && !FOLLOW[B].has(s)) { FOLLOW[B].add(s); changed = true; }
+          }
+          if (beta.length === 0 || firstBeta.has('#')) {
+            for (const s of FOLLOW[lhs]) {
+              if (!FOLLOW[B].has(s)) { FOLLOW[B].add(s); changed = true; }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return { FIRST, FOLLOW };
+}
+
+function renderChip(sym) {
+  if (sym === '#') return `<span class="chip epsilon">&epsilon;</span>`;
+  if (sym === '$') return `<span class="chip dollar">$</span>`;
+  return `<span class="chip">${escapeHtml(sym)}</span>`;
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function renderTable(title, order, sets) {
+  let rows = '';
+  for (const nt of order) {
+    const vals = Array.from(sets[nt]);
+    const cellContent = vals.length
+      ? vals.map(renderChip).join('')
+      : `<span class="empty-note">empty</span>`;
+    rows += `<tr><td class="nt-cell">${escapeHtml(nt)}</td><td>${cellContent}</td></tr>`;
+  }
+  return `<h2>${title}</h2><table class="set-table"><tbody>${rows}</tbody></table>`;
+}
+function calculateComplexity(order, rules) {
+  const M = order.length;
+
+  let L = 0;
+  const terminals = new Set();
+
+  for (const nt of order) {
+    for (const alt of rules[nt]) {
+      for (const sym of alt) {
+        if (sym !== '#') {
+          L++;
+
+          if (!isNonTerminalChar(sym)) {
+            terminals.add(sym);
+          }
+        }
+      }
+    }
+  }
+
+  const T = terminals.size;
+
+  const iterations = M * (T + 1);
+  const firstComplexity = M * (T + 1) * L;
+
+  const followComplexity =
+    M * (T + 1) * L * L;
+
+  return {
+    M,
+    T,
+    L,
+    iterations,
+    firstComplexity,
+    followComplexity,
+    totalComplexity:
+      firstComplexity + followComplexity
+  };
+}
+function compute() {
+  errorSlot.innerHTML = '';
+  resultsSlot.innerHTML = '';
+  try {
+    const { order, rules } = parseGrammar(input.value);
+
+    // Validate: every non-terminal referenced on a RHS should ideally be defined
+    const undefined_ = new Set();
+    for (const nt of order) {
+      for (const alt of rules[nt]) {
+        for (const sym of alt) {
+          if (isNonTerminalChar(sym) && !rules[sym]) undefined_.add(sym);
+        }
+      }
+    }
+    if (undefined_.size > 0) {
+      throw new Error(`Referenced but never defined: ${Array.from(undefined_).join(', ')}`);
+    }
+
+    const { FIRST, FOLLOW } = computeFirstFollow(order, rules);
+    const complexity = calculateComplexity(order, rules);
+    resultsSlot.innerHTML = `
+  <div class="results-grid">
+    <div class="panel">
+      ${renderTable('FIRST', order, FIRST)}
+    </div>
+
+    <div class="panel">
+      ${renderTable('FOLLOW', order, FOLLOW)}
+    </div>
+  </div>
+
+  <div class="complexity-panel">
+    <h2>Time & Space Complexity Analysis</h2>
+
+    <div class="complexity-grid">
+
+      <div class="complexity-item">
+        <span>FIRST Computation</span>
+        <strong>O(M × T × L)</strong>
+      </div>
+
+      <div class="complexity-item">
+        <span>FOLLOW Computation</span>
+        <strong>O(M × T × L²)</strong>
+      </div>
+
+      <div class="complexity-item">
+        <span>Overall Time Complexity</span>
+        <strong>O(M × T × L²)</strong>
+      </div>
+
+      <div class="complexity-item">
+        <span>Space Complexity</span>
+        <strong>O(M × T + L)</strong>
+      </div>
+
+    </div>
+
+    <div class="complexity-note">
+      <b>Input analysis:</b><br>
+      Non-terminals (M): ${complexity.M}<br>
+      Terminals (T): ${complexity.T}<br>
+      Total RHS symbols (L): ${complexity.L}<br><br>
+
+      <b>Estimated operation bounds:</b><br>
+      FIRST: ${complexity.firstComplexity.toLocaleString()}<br>
+      FOLLOW: ${complexity.followComplexity.toLocaleString()}<br>
+      Combined: ${complexity.totalComplexity.toLocaleString()}<br><br>
+
+      <b>Explanation:</b><br>
+      FIRST and FOLLOW sets are computed using
+      iterative fixed-point algorithms. FOLLOW may
+      repeatedly scan production suffixes, resulting
+      in the quadratic factor L².
+    </div>
+  </div>
+`;
+  } catch (e) {
+    errorSlot.innerHTML = `<div class="error-box">${escapeHtml(e.message)}</div>`;
+  }
+}
+
+// Load example on first render
+input.value = EXAMPLE;
+compute();
+</script>
+>>>>>>> b85febcfd098ac03da5dd2e38d25ff5a5b26538b
 </body>
 </html>

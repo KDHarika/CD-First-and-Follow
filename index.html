@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DUALCORE — Execution &amp; Compilation Lab</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="DUALCORE home"><span class="brand-mark">D<span>/</span>C</span><span class="brand-copy"><strong>DUALCORE</strong><small>EXECUTION &amp; COMPILATION LAB</small></span></a>
+    <div class="top-meta"><span class="live-dot"></span><span id="headerStatus">READY · LOCAL RUNTIME</span><span class="divider"></span><span>BUILD 01</span></div>
+    <button id="resetButton" class="quiet-button" type="button">↺ <span>Reset</span></button>
+  </header>
+  <main class="shell">
+    <section class="intro"><div><p class="eyebrow">LANGUAGE SYSTEMS / BENCHMARK ENVIRONMENT</p><h1>One program.<br><em>Two execution models.</em></h1></div><div class="intro-note"><span class="note-index">01 — 02</span><p>Trace the same source through direct interpretation and compiled virtual machine execution.</p></div></section>
+    <section class="workbench">
+      <section class="source-panel panel">
+        <div class="panel-heading"><div><span class="section-index">01</span><h2>Source</h2></div><span class="file-tag">DUAL / .dc</span></div>
+        <div class="source-controls"><label for="sampleSelect">LOAD EXAMPLE</label><select id="sampleSelect"><option value="arithmetic">01 / Arithmetic</option><option value="conditional">02 / Conditional</option><option value="loop">03 / Loop</option></select></div>
+        <div class="editor-wrap"><div id="lineNumbers" class="line-numbers" aria-hidden="true"></div><textarea id="sourceEditor" spellcheck="false" aria-label="Mini-language source code"></textarea></div>
+        <div class="editor-footer"><span id="sourceMetrics">0 LINES · 0 TOKENS</span><button id="runButton" class="run-button" type="button"><span>Run both paths</span><b>↗</b></button></div>
+        <div class="language-note"><span class="lime-rule"></span><span>LET · IF / ELSE · WHILE · PRINT</span><span>STEP LIMIT 10,000</span></div>
+      </section>
+      <section class="path-panel panel" id="interpreterPanel">
+        <div class="panel-heading"><div><span class="section-index">02A</span><h2>Interpreter</h2></div><span class="path-kind">AST / DIRECT</span></div>
+        <div class="path-status"><span class="status-pip" id="interpreterPip"></span><span id="interpreterStatus">AWAITING RUN</span><span class="status-time" id="interpreterTime">—</span></div>
+        <div class="result-block"><div class="micro-heading">PROGRAM OUTPUT <span>STDOUT</span></div><pre id="interpreterOutput" class="output">Run a program to inspect output.</pre></div>
+        <div class="metrics-grid"><div><span>LEXER</span><strong id="iLex">—</strong></div><div><span>PARSER</span><strong id="iParse">—</strong></div><div><span>EXECUTION</span><strong id="iExec">—</strong></div><div><span>AST EVALUATIONS</span><strong id="iCount">—</strong></div></div>
+      </section>
+      <section class="path-panel panel" id="compilerPanel">
+        <div class="panel-heading"><div><span class="section-index">02B</span><h2>Compiler + VM</h2></div><span class="path-kind">THREE ADDRESS / VM</span></div>
+        <div class="path-status"><span class="status-pip" id="compilerPip"></span><span id="compilerStatus">AWAITING RUN</span><span class="status-time" id="compilerTime">—</span></div>
+        <div class="result-block"><div class="micro-heading">VIRTUAL MACHINE OUTPUT <span>STDOUT</span></div><pre id="compilerOutput" class="output">Run a program to inspect output.</pre></div>
+        <div class="metrics-grid"><div><span>LEXER</span><strong id="cLex">—</strong></div><div><span>PARSER</span><strong id="cParse">—</strong></div><div><span>CODE GENERATION</span><strong id="cCodegen">—</strong></div><div><span>VM EXECUTION</span><strong id="cExec">—</strong></div><div><span>VM INSTRUCTIONS</span><strong id="cCount">—</strong></div><div><span>PIPELINE TOTAL</span><strong id="compilerTimeInline">—</strong></div></div>
+      </section>
+    </section>
+    <section class="lower-grid">
+      <section class="detail-panel panel"><div class="detail-top"><div><span class="section-index">03</span><h2>Inspection</h2></div><div class="tabs" role="tablist" aria-label="Inspection views"><button class="tab active" data-tab="source" role="tab">SOURCE</button><button class="tab" data-tab="ast" role="tab">AST</button><button class="tab" data-tab="ir" role="tab">INTERMEDIATE CODE</button><button class="tab" data-tab="trace" role="tab">EXECUTION TRACE</button><button class="tab" data-tab="report" role="tab">PERFORMANCE REPORT</button></div></div>
+        <div class="tab-content" id="tabContent"><div class="empty-state"><span>↳</span><p>Run a program to populate the inspection view.</p></div></div>
+      </section>
+      <aside class="comparison panel"><div class="panel-heading"><div><span class="section-index">04</span><h2>Comparison</h2></div><span class="approx-label">APPROX. MEASUREMENTS</span></div><div id="equivalence" class="equivalence pending"><span class="equivalence-icon">—</span><div><strong>NO COMPARISON</strong><small>OUTPUT EQUIVALENCE</small></div></div><div class="chart-title">AVERAGE PIPELINE TIME <span>μs · LOG SCALE</span></div><div class="chart" id="timingChart"><div class="chart-empty">Timing profile appears after a run.</div></div><p class="comparison-foot">Warm-up + repeated runs · browser local time</p></aside>
+    </section>
+    <footer><span>DUALCORE / MINI LANGUAGE TOOLCHAIN</span><span>CLIENT-SIDE · NO EXTERNAL RUNTIME</span><span>PS-02 / COMPILER DESIGN HACKATHON</span></footer>
+  </main>
+  <div id="errorToast" class="error-toast" role="alert" hidden></div>
+  <script src="script.js"></script>
+</body>
+</html>
